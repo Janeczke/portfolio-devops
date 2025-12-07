@@ -7,13 +7,9 @@ export const metadata: Metadata = {
   description: "Portfolio developerskie stworzone w Next.js, React i TypeScript.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pl">
+    <html lang="pl" className="scroll-smooth">
       <body className="min-h-screen bg-slate-950 text-slate-100 antialiased">
         {children}
       </body>

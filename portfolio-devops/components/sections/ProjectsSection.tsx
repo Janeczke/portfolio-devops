@@ -1,4 +1,5 @@
 // components/sections/ProjectsSection.tsx
+
 type Project = {
   id: string;
   name: string;
@@ -15,7 +16,19 @@ type Project = {
   }[];
 };
 
-const projects: Project[] = [
+type SimpleProject = {
+  id: string;
+  name: string;
+  summary: string;
+  tech: string[];
+  links?: {
+    label: string;
+    href: string;
+    kind: "live" | "repo";
+  }[];
+};
+
+const mainProjects: Project[] = [
   {
     id: "spx",
     name: "SPX Logistics – strona główna firmy",
@@ -31,20 +44,46 @@ const projects: Project[] = [
       "Zaprojektowanie nowoczesnych layoutów z naciskiem na czytelność i futurystyczny charakter.",
       "Zadbanie o pełną responsywność i poprawne zachowanie na różnych rozdzielczościach.",
       "Implementacja animacji i efektów (m.in. karty, nawigacja, dynamiczne sekcje) w oparciu o React.",
-      "Wprowadzenie wielojęzyczności z użyciem i18n oraz integracja z istniejącą infrastrukturą firmy."
+      "Wprowadzenie wielojęzyczności z użyciem i18n oraz integracja z istniejącą infrastrukturą firmy.",
     ],
     tech: ["React", "Vite", "JavaScript", "SCSS", "i18n", "Git"],
     links: [
+      // Jak będziesz gotowy, odkomentuj i wstaw konkretne adresy:
+      // { label: "Zobacz stronę", href: "https://sp-express.pl", kind: "live" },
+      // { label: "Kod źródłowy", href: "https://github.com/Janeczke/sp-express-main", kind: "repo" },
+    ],
+  },
+];
+
+const sideProjects: SimpleProject[] = [
+  {
+    id: "litepack",
+    name: "SP-Express Litepack – landing produktu",
+    summary:
+      "Lekki landing page dla usługi Litepack, spójny wizualnie z główną stroną SPX. Skupia się na szybkim przekazaniu wartości usługi i zachęceniu do kontaktu.",
+    tech: ["React", "Vite", "JavaScript", "SCSS", "Git"],
+    links: [
       {
-        label: "Zobacz stronę",
-        href: "https://sp-express.pl",
-        kind: "live",
-      },
-      {
-        label: "Kod źródłowy",
-        href: "https://github.com/Janeczke/sp-express-main",
+        label: "Repozytorium",
+        href: "https://github.com/Janeczke/sp-express-litepack",
         kind: "repo",
       },
+      // { label: "Zobacz stronę", href: "https://sp-express.pl/litepack", kind: "live" },
+    ],
+  },
+  {
+    id: "palety",
+    name: "SP-Express Palety – landing produktu",
+    summary:
+      "Strona usług paletowych przygotowana jako osobny landing. Zawiera sekcje opisujące ofertę, korzyści oraz CTA kierujące do kontaktu.",
+    tech: ["React", "Vite", "JavaScript", "SCSS", "Git"],
+    links: [
+      {
+        label: "Repozytorium",
+        href: "https://github.com/Janeczke/sp-express-palety",
+        kind: "repo",
+      },
+      // { label: "Zobacz stronę", href: "https://sp-express.pl/palety", kind: "live" },
     ],
   },
 ];
@@ -124,6 +163,50 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
+function SimpleProjectCard({ project }: { project: SimpleProject }) {
+  return (
+    <article className="rounded-lg border border-slate-800 bg-slate-900/30 p-4 text-sm text-slate-300">
+      <h3 className="text-sm font-semibold text-slate-100">
+        {project.name}
+      </h3>
+      <p className="mt-2 text-sm text-slate-300">{project.summary}</p>
+
+      {project.tech.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2 text-xs text-slate-300">
+          {project.tech.map((t) => (
+            <span
+              key={t}
+              className="rounded-full border border-slate-700 px-2 py-0.5"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {project.links && project.links.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {project.links.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noreferrer"
+              className={`inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium ${
+                link.kind === "live"
+                  ? "border-emerald-500 bg-emerald-500 text-slate-950 hover:bg-emerald-400"
+                  : "border-slate-700 text-slate-100 hover:border-slate-500"
+              }`}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </article>
+  );
+}
+
 export function ProjectsSection() {
   return (
     <section
@@ -140,11 +223,26 @@ export function ProjectsSection() {
         dopasowaniu rozwiązania do realnych potrzeb biznesu.
       </p>
 
+      {/* Główne projekty */}
       <div className="mt-8 space-y-6">
-        {projects.map((project) => (
+        {mainProjects.map((project) => (
           <ProjectCard key={project.id} project={project} />
         ))}
       </div>
+
+      {/* Pozostałe projekty */}
+      {sideProjects.length > 0 && (
+        <div className="mt-10">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+            Pozostałe projekty
+          </h3>
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            {sideProjects.map((project) => (
+              <SimpleProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

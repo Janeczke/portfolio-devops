@@ -10,7 +10,7 @@ export function HeroSection() {
 
       <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50 md:text-4xl">
         Cześć, jestem {""}
-        <span className="text-emerald-400">[Szymon Janosz]</span>.
+        <span className="text-emerald-400">Szymon Janosz</span>.
       </h1>
 
       <p className="mt-4 max-w-xl text-sm text-slate-300 md:text-base">
